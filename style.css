@@ -1,0 +1,109 @@
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    background: #F2F7F5; /* A soft, easy-on-the-eyes background */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background: #5DA399;
+    padding: 1em;
+    text-align: center;
+    color: #fff;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    /* Removed gap to put them closer together */
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Wrap elements in a container to appear as one grouped unit */
+main > div {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Add a border line between consecutive elements */
+.element + .element {
+    border-top: 1px solid #ccc;
+}
+
+.element {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.element img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.controls .count {
+    font-size: 1.2em;
+    min-width: 2em;
+    text-align: center;
+}
+
+.controls button {
+    background: #5DA399;
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls button:active {
+    background: #4E857C;
+}
+
+@media (min-width: 600px) {
+    /* Slightly larger spacing on bigger screens */
+    main {
+        padding: 2em;
+    }
+
+    .controls .count {
+        font-size: 1.4em;
+    }
+}
