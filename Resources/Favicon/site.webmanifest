@@ -3,13 +3,13 @@
   "short_name": "Elements",
   "icons": [
     {
-      "src": "/Resources/Favicon/web-app-manifest-192x192.png",
+      "src": "/spirit-island-element-tracker/Resources/Favicon/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/Resources/Favicon/web-app-manifest-512x512.png",
+      "src": "/spirit-island-element-tracker/Resources/Favicon/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
