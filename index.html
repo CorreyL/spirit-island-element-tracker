@@ -1,82 +1,327 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-    <meta name="description" content="Simple Spirit Island Element Tracker">
+    <meta name="description" content="Spirit Island Element Tracker">
     <title>Spirit Island Element Tracker</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="Resources/animal.png" type="image/png">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        body {
+            background: var(--bg-color, #F2F7F5);
+            color: var(--text-color, #333);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #F2F7F5;
+            --header-bg: #5DA399;
+            --element-bg: #fff;
+            --button-bg: #5DA399;
+            --button-hover-bg: #4E857C;
+            --button-active-bg: #397363;
+            --text-color: #333;
+            --border-color: #ccc;
+            --settings-bg: #f7f7f7;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #2D2D2D;
+            --header-bg: #444;
+            --element-bg: #555;
+            --button-bg: #888;
+            --button-hover-bg: #777;
+            --button-active-bg: #666;
+            --text-color: #eee;
+            --border-color: #999;
+            --settings-bg: #444;
+        }
+
+        header {
+            background: var(--header-bg);
+            padding: 0.5em; /* Reduced padding */
+            text-align: center;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1em; /* Reduced font size */
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 1em;
+            margin-top: 0.5em;
+        }
+
+        .top-buttons button {
+            background: var(--button-bg);
+            border: none;
+            color: #fff;
+            font-size: 1em;
+            padding: 0.5em 1em;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s; /* Smooth hover effect */
+        }
+
+        .top-buttons button:hover {
+            background: var(--button-hover-bg); /* Highlight on hover */
+        }
+
+        .top-buttons button:active {
+            background: var(--button-active-bg);
+        }
+
+        .dark-mode-toggle {
+            display: inline-block;
+            background: var(--button-bg);
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.2s;
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--button-hover-bg); /* Highlight on hover */
+        }
+
+        .dark-mode-toggle:before {
+            content: '🌞'; /* Default to sun icon */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            color: #fff;
+        }
+
+        [data-theme="dark"] .dark-mode-toggle:before {
+            content: '🌙'; /* Change to moon icon in dark mode */
+        }
+
+        main {
+            padding: 0.5em;
+        }
+
+        .settings-hint {
+            background: var(--settings-bg);
+            padding: 0.5em;
+            text-align: center;
+            font-size: 0.9em;
+            display: none;
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .settings-hint.active {
+            display: block;
+        }
+
+        .elements-container {
+            background: var(--element-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .element + .element {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .element {
+            padding: 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .element img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
+        .controls .count {
+            font-size: 1.2em;
+            min-width: 1.5em;
+            text-align: center;
+        }
+
+        .controls button {
+            background: var(--button-bg);
+            border: none;
+            color: #fff;
+            font-size: 1.2em;
+            line-height: 1;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .controls button:hover {
+            background: var(--button-hover-bg); /* Highlight on hover */
+        }
+
+        .controls button:active {
+            background: var(--button-active-bg);
+        }
+
+        /* Red remove button on the left side, outside of the bar */
+        .remove-btn {
+            position: absolute;
+            left: -30px; /* Move outside the bar */
+            top: 50%;
+            transform: translateY(-50%);
+            background: red;
+            color: #fff;
+            border: none;
+            width: 20px;
+            height: 20px;
+            font-size: 1em;
+            line-height: 1;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-btn.active {
+            display: flex;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Spirit Island Elements</h1>
+        <h1>Spirit Island Element Tracker</h1>
+        <div class="top-buttons">
+            <button id="reset-btn">Reset</button>
+            <button id="settings-btn">Settings</button>
+            <div id="dark-mode-toggle" class="dark-mode-toggle"></div>
+        </div>
     </header>
     <main>
-        <div class="element" data-element="sun">
-            <img src="Resources/sun.png" alt="Sun Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="moon">
-            <img src="Resources/moon.png" alt="Moon Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="fire">
-            <img src="Resources/fire.png" alt="Fire Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="air">
-            <img src="Resources/air.png" alt="Air Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="water">
-            <img src="Resources/water.png" alt="Water Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="earth">
-            <img src="Resources/earth.png" alt="Earth Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="plant">
-            <img src="Resources/plant.png" alt="Plant Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
-        </div>
-        <div class="element" data-element="animal">
-            <img src="Resources/animal.png" alt="Animal Element">
-            <div class="controls">
-                <button class="decrement">-</button>
-                <span class="count">0</span>
-                <button class="increment">+</button>
-            </div>
+        <div class="settings-hint" id="settings-hint">Tap the red X to remove an element</div>
+        <div class="elements-container" id="elements-container">
+            <!-- Elements go here -->
         </div>
     </main>
-    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsContainer = document.getElementById('elements-container');
+            const resetBtn = document.getElementById('reset-btn');
+            const settingsBtn = document.getElementById('settings-btn');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const settingsHint = document.getElementById('settings-hint');
+            let settingsMode = false;
+
+            // Example elements
+            const elements = [
+                { name: 'sun', img: 'Resources/sun.png' },
+                { name: 'moon', img: 'Resources/moon.png' },
+                { name: 'fire', img: 'Resources/fire.png' },
+                { name: 'air', img: 'Resources/air.png' },
+                { name: 'water', img: 'Resources/water.png' },
+                { name: 'earth', img: 'Resources/earth.png' },
+                { name: 'plant', img: 'Resources/plant.png' },
+                { name: 'animal', img: 'Resources/animal.png' }
+            ];
+
+            // Populate elements dynamically
+            elements.forEach(({ name, img }) => {
+                const element = document.createElement('div');
+                element.classList.add('element');
+                element.dataset.element = name;
+
+                element.innerHTML = `
+                    <button class="remove-btn">X</button>
+                    <img src="${img}" alt="${name.charAt(0).toUpperCase() + name.slice(1)} Element">
+                    <div class="controls">
+                        <button class="decrement">-</button>
+                        <span class="count">0</span>
+                        <button class="increment">+</button>
+                    </div>
+                `;
+
+                elementsContainer.appendChild(element);
+            });
+
+            // Toggle settings mode
+            settingsBtn.addEventListener('click', () => {
+                settingsMode = !settingsMode;
+                toggleSettingsMode(settingsMode);
+            });
+
+            function toggleSettingsMode(on) {
+                const removeBtns = elementsContainer.querySelectorAll('.remove-btn');
+                removeBtns.forEach(btn => {
+                    btn.style.display = on ? 'flex' : 'none';
+                });
+                settingsHint.style.display = on ? 'block' : 'none';
+            }
+
+            // Remove element
+            elementsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-btn')) {
+                    e.target.closest('.element').remove();
+                }
+            });
+
+            // Reset all counts
+            resetBtn.addEventListener('click', () => {
+                elementsContainer.querySelectorAll('.count').forEach(count => {
+                    count.textContent = '0';
+                });
+            });
+
+            // Increment/Decrement counts
+            elementsContainer.addEventListener('click', (e) => {
+                const count = e.target.closest('.element')?.querySelector('.count');
+                if (count) {
+                    const current = parseInt(count.textContent, 10);
+                    if (e.target.classList.contains('increment')) count.textContent = current + 1;
+                    if (e.target.classList.contains('decrement') && current > 0) count.textContent = current - 1;
+                }
+            });
+
+            // Dark mode toggle
+            darkModeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                document.documentElement.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+            });
+        });
+    </script>
 </body>
 </html>
