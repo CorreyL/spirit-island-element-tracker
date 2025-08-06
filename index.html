@@ -337,11 +337,11 @@
                 if (!wakeLockEnabled) {
                     noSleep.enable(); // keep the screen on!
                     wakeLockEnabled = true;
-                    alert('No Sleep Activated')
+                    window.alert('No Sleep Activated')
                 } else {
                     noSleep.disable(); // let the screen turn off.
                     wakeLockEnabled = false;
-                    alert('No Sleep Deactivated')
+                    window.alert('No Sleep Deactivated')
                 }
             }, false);
         });
