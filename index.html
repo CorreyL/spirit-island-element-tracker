@@ -331,7 +331,7 @@
 
             const noSleep = new NoSleep();
 
-            const wakeLockEnabled = false;
+            let wakeLockEnabled = false;
             const toggleEl = document.querySelector("#toggle-no-sleep");
             toggleEl.addEventListener('click', function() {
                 if (!wakeLockEnabled) {
