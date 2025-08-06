@@ -11,6 +11,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/spirit-island-element-tracker/Resources/Favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Elements" />
     <link rel="manifest" href="/spirit-island-element-tracker/Resources/Favicon/site.webmanifest" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nosleep/0.12.0/NoSleep.min.js"></script>
     <style>
         html, body {
             margin: 0;
@@ -233,6 +234,7 @@
         <div class="top-buttons">
             <button id="reset-btn">Reset</button>
             <button id="settings-btn">Settings</button>
+            <button id="toggle-no-sleep">Toggle No Sleep</button>
             <div id="dark-mode-toggle" class="dark-mode-toggle"></div>
         </div>
     </header>
@@ -326,6 +328,22 @@
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 document.documentElement.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
             });
+
+            const noSleep = new NoSleep();
+
+            const wakeLockEnabled = false;
+            const toggleEl = document.querySelector("#toggle-no-sleep");
+            toggleEl.addEventListener('click', function() {
+                if (!wakeLockEnabled) {
+                    noSleep.enable(); // keep the screen on!
+                    wakeLockEnabled = true;
+                    alert('No Sleep Activated')
+                } else {
+                    noSleep.disable(); // let the screen turn off.
+                    wakeLockEnabled = false;
+                    alert('No Sleep Deactivated')
+                }
+            }, false);
         });
     </script>
 </body>
